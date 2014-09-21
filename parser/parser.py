@@ -184,7 +184,7 @@ for parlamentar in parlamentares:
                 proposicao.link_teor = root_proposicao.find('LinkInteiroTeor').text
                 insert_proposicao_string = """
                     insert into proposicao
-                    (id, numero, ano, ementa, explicacao, tema, id_autor, data_apresentacao, situacao, link_teor)
+                    (id, numero, ano, ementa, explicacao, tema, parlamentar_id, data_apresentacao, situacao, link_teor)
                     values ("%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s")
                     """ % (proposicao.id_proposicao, proposicao.numero, proposicao.ano, proposicao.ementa,
                             proposicao.explicacao, proposicao.tema, proposicao.autor.id_cadastro, proposicao.data_apresentacao,
