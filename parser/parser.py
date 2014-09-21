@@ -9,7 +9,7 @@ import xml.etree.ElementTree as ET
 from datetime import date
 import MySQLdb
 
-db_maria = str(sys.argv[1])
+db_name = str(sys.argv[1])
 
 db_user = str(sys.argv[2])
 try:
@@ -18,11 +18,15 @@ except IndexError:
     db_pwd = ''
 
 if db_pwd != '':
-    create_db_string = "mysql -u %s -p%s -e 'DROP DATABASE IF EXISTS %s; CREATE DATABASE ep_dev'" % (db_user, db_pwd, db_maria)
+    create_db_string = "mysql -u %s -p%s -e 'DROP DATABASE IF EXISTS %s; CREATE DATABASE %s'" % (db_user, db_pwd, db_name, db_name)
 else:
-    create_db_string = "mysql -u %s -e 'DROP DATABASE IF EXISTS %s; CREATE DATABASE ep_dev'" % (db_user, db_maria)
+    create_db_string = "mysql -u %s -e 'DROP DATABASE IF EXISTS %s; CREATE DATABASE %s'" % (db_user, db_name, db_name)
 
-db = MySQLdb.connect("localhost", db_user, db_pwd, db_maria)
+print "Criando base de dados espelho_politico..."
+sleep(1)
+subprocess.call(create_db_string, shell=True)
+
+db = MySQLdb.connect("localhost", db_user, db_pwd, db_name)
 cursor = db.cursor()
 
 # Classe para parlamentar
@@ -62,10 +66,6 @@ def remove_acentos(nome):
     except TypeError:
         # Caso haja acentos, remove-os
         return unicodedata.normalize('NFKD', nome).encode('ASCII', 'ignore')
-
-print "Criando base de dados espelho_politico..."
-sleep(1)
-subprocess.call(create_db_string, shell=True)
 
 print "Obtendo os dados dos parlamentares"
 url_parlamentares = 'http://www.camara.gov.br/SitCamaraWS/Deputados.asmx/ObterDeputados'
