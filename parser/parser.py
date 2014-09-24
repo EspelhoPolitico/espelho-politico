@@ -18,6 +18,18 @@ try:
 except IndexError:
     db_pwd = ''
 
+<<<<<<< HEAD
+if db_pwd != '':
+    create_db_string = "mysql -u %s -p%s -e 'DROP DATABASE IF EXISTS %s; CREATE DATABASE %s'" % (db_user, db_pwd, db_name, db_name)
+else:
+    create_db_string = "mysql -u %s -e 'DROP DATABASE IF EXISTS %s; CREATE DATABASE %s'" % (db_user, db_name, db_name)
+
+print "Criando base de dados espelho_politico..."
+sleep(1)
+subprocess.call(create_db_string, shell=True)
+
+=======
+>>>>>>> 999ce480583b681a1f4909a5201aaf50b2bd83e5
 db = MySQLdb.connect("localhost", db_user, db_pwd, db_name)
 cursor = db.cursor()
 
@@ -101,6 +113,26 @@ proposicoes = []
 print '-----------------------------------------------------------'
 print
 
+<<<<<<< HEAD
+create_table_string = """
+CREATE TABLE proposicao (
+id int not null,
+numero int not null,
+ano int not null,
+ementa text,
+explicacao text,
+tema varchar(255),
+parlamentar_id int not null,
+data_apresentacao date,
+situacao varchar(255),
+link_teor varchar(100),
+primary key(id, numero, ano, parlamentar_id),
+constraint FK_proposicao_parlamentar_id foreign key(parlamentar_id) references parlamentar(id)
+);"""
+cursor.execute(create_table_string)
+db.commit()
+=======
+>>>>>>> 999ce480583b681a1f4909a5201aaf50b2bd83e5
 total_proposicoes = 0
 tipos_pl = ['PL', 'PLC', 'PLN', 'PLP', 'PLS', 'PLV', 'EAG', 'EMA',
             'EMC', 'EMC-A', 'EMD', 'EML', 'EMO', 'EMP', 'EMPV',
