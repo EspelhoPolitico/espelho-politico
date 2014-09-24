@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from urllib2 import urlopen, HTTPError
+from urllib2 import urlopen, HTTPError, URLError
 import unicodedata
 import subprocess
 import sys
@@ -9,18 +9,20 @@ import xml.etree.ElementTree as ET
 from datetime import date
 import MySQLdb
 
-db_user = str(sys.argv[1])
+db_maria = str(sys.argv[1])
+
+db_user = str(sys.argv[2])
 try:
-    db_pwd = str(sys.argv[2])
+    db_pwd = str(sys.argv[3])
 except IndexError:
     db_pwd = ''
 
 if db_pwd != '':
-    create_db_string = "mysql -u %s -p%s -e 'CREATE DATABASE IF NOT EXISTS espelho_politico'" % (db_user, db_pwd)
+    create_db_string = "mysql -u %s -p%s -e 'DROP DATABASE IF EXISTS %s; CREATE DATABASE ep_dev'" % (db_user, db_pwd, db_maria)
 else:
-    create_db_string = "mysql -u %s -e 'CREATE DATABASE IF NOT EXISTS espelho_politico'" % (db_user)
+    create_db_string = "mysql -u %s -e 'DROP DATABASE IF EXISTS %s; CREATE DATABASE ep_dev'" % (db_user, db_maria)
 
-db = MySQLdb.connect("localhost", db_user, db_pwd, "espelho_politico")
+db = MySQLdb.connect("localhost", db_user, db_pwd, db_maria)
 cursor = db.cursor()
 
 # Classe para parlamentar
@@ -46,6 +48,7 @@ class Proposicao():
         self.numero = 0
         self.ementa = ""
         self.explicacao = ""
+        self.tema = ""
         self.autor = Parlamentar()
         self.data_apresentacao = ""
         self.situacao = ""
@@ -69,12 +72,6 @@ url_parlamentares = 'http://www.camara.gov.br/SitCamaraWS/Deputados.asmx/ObterDe
 xml_parlamentares = ET.parse(urlopen(url_parlamentares))
 xml_parlamentares = xml_parlamentares.getroot()
 parlamentares = []
-drop_table_string = "DROP TABLE IF EXISTS proposicao;"
-cursor.execute(drop_table_string)
-db.commit()
-drop_table_string = "DROP TABLE IF EXISTS parlamentar;"
-cursor.execute(drop_table_string)
-db.commit()
 create_table_string = """
 CREATE TABLE parlamentar (
 id int not null primary key,
@@ -127,16 +124,18 @@ print
 
 create_table_string = """
 CREATE TABLE proposicao (
-id int not null primary key,
-numero int,
-ano int,
+id int not null,
+numero int not null,
+ano int not null,
 ementa varchar(255),
 explicacao varchar(1000),
-id_autor int not null,
+tema varchar(255),
+parlamentar_id int not null,
 data_apresentacao date,
 situacao varchar(255),
 link_teor varchar(100),
-constraint FK_proposicao_id_autor foreign key(id_autor) references parlamentar(id)
+primary key(id, numero, ano, parlamentar_id),
+constraint FK_proposicao_parlamentar_id foreign key(parlamentar_id) references parlamentar(id)
 );"""
 cursor.execute(create_table_string)
 db.commit()
@@ -150,6 +149,12 @@ for parlamentar in parlamentares:
             xml_proposicoes = ET.parse(urlopen(url_proposicoes))
         except HTTPError:
             print "Parlamentar sem proposição de", pl, ":'("
+            print
+            sleep(1)
+            continue
+        except URLError:
+            print "Erro de conexão..."
+            print "Prosseguindo..."
             print
             sleep(1)
             continue
@@ -169,6 +174,7 @@ for parlamentar in parlamentares:
                 proposicao.ementa = proposicao.ementa.replace('"', '').replace("'", "")
                 proposicao.explicacao = root_proposicao.find('ExplicacaoEmenta').text
                 proposicao.explicacao = proposicao.explicacao.replace('"', '').replace("'", "")
+                proposicao.tema = root_proposicao.find('tema').text
                 proposicao.autor = parlamentar
                 data = root_proposicao.find('DataApresentacao').text
                 data = data.split('/')
@@ -176,15 +182,15 @@ for parlamentar in parlamentares:
                 proposicao.data_apresentacao = data.isoformat()
                 proposicao.situacao = root_proposicao.find('Situacao').text
                 proposicao.link_teor = root_proposicao.find('LinkInteiroTeor').text
-                insert_parlamentar_string = """
+                insert_proposicao_string = """
                     insert into proposicao
-                    (id, numero, ano, ementa, explicacao, id_autor, data_apresentacao, situacao, link_teor)
-                    values ("%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s")
+                    (id, numero, ano, ementa, explicacao, tema, id_autor, data_apresentacao, situacao, link_teor)
+                    values ("%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s")
                     """ % (proposicao.id_proposicao, proposicao.numero, proposicao.ano, proposicao.ementa,
-                            proposicao.explicacao, proposicao.autor.id_cadastro, proposicao.data_apresentacao,
+                            proposicao.explicacao, proposicao.tema, proposicao.autor.id_cadastro, proposicao.data_apresentacao,
                             proposicao.situacao, proposicao.link_teor)
 
-                cursor.execute(insert_parlamentar_string)
+                cursor.execute(insert_proposicao_string)
                 db.commit()
 
                 num_proposicoes += 1
