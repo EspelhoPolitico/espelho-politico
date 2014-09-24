@@ -8,6 +8,7 @@ from time import sleep
 import xml.etree.ElementTree as ET
 from datetime import date
 import MySQLdb
+from MySQLdb import IntegrityError
 
 db_name = str(sys.argv[1])
 
@@ -17,6 +18,7 @@ try:
 except IndexError:
     db_pwd = ''
 
+<<<<<<< HEAD
 if db_pwd != '':
     create_db_string = "mysql -u %s -p%s -e 'DROP DATABASE IF EXISTS %s; CREATE DATABASE %s'" % (db_user, db_pwd, db_name, db_name)
 else:
@@ -26,6 +28,8 @@ print "Criando base de dados espelho_politico..."
 sleep(1)
 subprocess.call(create_db_string, shell=True)
 
+=======
+>>>>>>> 999ce480583b681a1f4909a5201aaf50b2bd83e5
 db = MySQLdb.connect("localhost", db_user, db_pwd, db_name)
 cursor = db.cursor()
 
@@ -72,21 +76,6 @@ url_parlamentares = 'http://www.camara.gov.br/SitCamaraWS/Deputados.asmx/ObterDe
 xml_parlamentares = ET.parse(urlopen(url_parlamentares))
 xml_parlamentares = xml_parlamentares.getroot()
 parlamentares = []
-create_table_string = """
-CREATE TABLE parlamentar (
-id int not null primary key,
-nome varchar(255),
-matricula int,
-condicao varchar(255),
-url_foto varchar(400),
-uf varchar(2),
-partido varchar(20),
-telefone varchar(20),
-email varchar(100),
-gabinete int
-);"""
-cursor.execute(create_table_string)
-db.commit()
 total_parlamentares = 0
 for xml_parlamentar in xml_parlamentares:
     parlamentar = Parlamentar()
@@ -107,10 +96,12 @@ for xml_parlamentar in xml_parlamentares:
     """ % (parlamentar.id_cadastro, parlamentar.nome, parlamentar.matricula, parlamentar.condicao,
            parlamentar.url_foto, parlamentar.uf, parlamentar.partido, parlamentar.telefone,
            parlamentar.email, parlamentar.gabinete)
-
-    cursor.execute(insert_parlamentar_string)
-    db.commit()
-    print "Parlamentar", parlamentar.nome, "encontrad@"
+    try:
+        cursor.execute(insert_parlamentar_string)
+        db.commit()
+        print "Parlamentar", parlamentar.nome, "encontrad@"
+    except IntegrityError:
+        print "Parlamentar", parlamentar.nome, "já cadastrado"
     print
     parlamentares.append(parlamentar)
     total_parlamentares += 1
@@ -122,6 +113,7 @@ proposicoes = []
 print '-----------------------------------------------------------'
 print
 
+<<<<<<< HEAD
 create_table_string = """
 CREATE TABLE proposicao (
 id int not null,
@@ -139,11 +131,17 @@ constraint FK_proposicao_parlamentar_id foreign key(parlamentar_id) references p
 );"""
 cursor.execute(create_table_string)
 db.commit()
+=======
+>>>>>>> 999ce480583b681a1f4909a5201aaf50b2bd83e5
 total_proposicoes = 0
+tipos_pl = ['PL', 'PLC', 'PLN', 'PLP', 'PLS', 'PLV', 'EAG', 'EMA',
+            'EMC', 'EMC-A', 'EMD', 'EML', 'EMO', 'EMP', 'EMPV',
+            'EMR', 'EMRP', 'EMS', 'EPP', 'ERD', 'ERD-A', 'ESB',
+            'ESP', 'PEC', 'PDS', 'PDN', 'PDC']
 for parlamentar in parlamentares:
     print "Obtendo proposições d@ parlamentar", parlamentar.nome
     nome = remove_acentos(parlamentar.nome)
-    for pl in ['PL', 'PLC', 'PLN', 'PLP', 'PLS', 'PLV']:
+    for pl in tipos_pl:
         url_proposicoes = 'http://www.camara.gov.br/SitCamaraWS/Proposicoes.asmx/ListarProposicoes?sigla=%s&numero=&ano=&datApresentacaoIni=&datApresentacaoFim=&parteNomeAutor=%s&idTipoAutor=&siglaPartidoAutor=&siglaUFAutor=&generoAutor=&codEstado=&codOrgaoEstado=&emTramitacao=' % (pl, nome.replace(' ', '+'))
         try:
             xml_proposicoes = ET.parse(urlopen(url_proposicoes))
@@ -156,7 +154,7 @@ for parlamentar in parlamentares:
             print "Erro de conexão..."
             print "Prosseguindo..."
             print
-            sleep(1)
+            sleep(120)
             continue
         num_proposicoes = 0
         proposicoes = xml_proposicoes.getroot()
@@ -189,9 +187,11 @@ for parlamentar in parlamentares:
                     """ % (proposicao.id_proposicao, proposicao.numero, proposicao.ano, proposicao.ementa,
                             proposicao.explicacao, proposicao.tema, proposicao.autor.id_cadastro, proposicao.data_apresentacao,
                             proposicao.situacao, proposicao.link_teor)
-
-                cursor.execute(insert_proposicao_string)
-                db.commit()
+                try:
+                    cursor.execute(insert_proposicao_string)
+                    db.commit()
+                except IntegrityError:
+                    print "Proposição '", proposicao.ementa, "' existente no banco de dados."
 
                 num_proposicoes += 1
                 total_proposicoes += 1
@@ -203,6 +203,7 @@ for parlamentar in parlamentares:
             print "Parlamentar sem proposição de", pl ,":'("
             print
             sleep(1)
+        sleep(2)
 
 print
 print
