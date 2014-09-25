@@ -1,17 +1,17 @@
-class CriarParlamentar < ActiveRecord::Migration
+class CreateParliamentarian < ActiveRecord::Migration
   def change
-    create_table :parlamentar do |t|
-      t.string  :matricula
-      t.string  :condicao
-      t.string  :nome
-      t.string  :url_foto
-      t.string  :uf
-      t.string  :partido
-      t.string  :telefone
+    create_table :parliamentarian do |t|
+      t.string  :registry
+      t.string  :condition
+      t.string  :name
+      t.string  :url_photo
+      t.string  :state
+      t.string  :party
+      t.string  :phone
       t.string  :email
-      t.integer :gabinete
+      t.integer :cabinet
     end
-    add_index :parlamentar, :nome
-    add_index :parlamentar, :matricula
+    add_index :parliamentarian, :name
+    add_index :parliamentarian, :registry
   end
 end
