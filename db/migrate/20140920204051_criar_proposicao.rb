@@ -7,7 +7,7 @@ class CriarProposicao < ActiveRecord::Migration
       t.text         :explicacao
       t.string       :tema
       t.references   :parlamentar
-			t.references	 :tipo_proposicao
+      t.references   :tipo_proposicao
       t.date         :data_apresentacao
       t.string       :situacao
       t.string       :link_teor
