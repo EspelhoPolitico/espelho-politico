@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from urllib2 import urlopen, HTTPError, URLError
 import unicodedata
 import subprocess
@@ -18,18 +16,6 @@ try:
 except IndexError:
     db_pwd = ''
 
-<<<<<<< HEAD
-if db_pwd != '':
-    create_db_string = "mysql -u %s -p%s -e 'DROP DATABASE IF EXISTS %s; CREATE DATABASE %s'" % (db_user, db_pwd, db_name, db_name)
-else:
-    create_db_string = "mysql -u %s -e 'DROP DATABASE IF EXISTS %s; CREATE DATABASE %s'" % (db_user, db_name, db_name)
-
-print "Criando base de dados espelho_politico..."
-sleep(1)
-subprocess.call(create_db_string, shell=True)
-
-=======
->>>>>>> 999ce480583b681a1f4909a5201aaf50b2bd83e5
 db = MySQLdb.connect("localhost", db_user, db_pwd, db_name)
 cursor = db.cursor()
 
@@ -48,7 +34,7 @@ class Parlamentar():
         self.gabinete = 0
 
 
-# Classe para proposições
+# Classe para proposicoes
 class Proposicao():
     def __init__(self):
         self.id_proposicao = 0
@@ -65,7 +51,7 @@ class Proposicao():
 
 def remove_acentos(nome):
     try:
-        # Normaliza nome do parlamentar se não tiver acentos
+        # Normaliza nome do parlamentar se nao tiver acentos
         return unicodedata.normalize('NFKD', unicode (nome, 'utf-8')).encode('ASCII', 'ignore')
     except TypeError:
         # Caso haja acentos, remove-os
@@ -101,7 +87,7 @@ for xml_parlamentar in xml_parlamentares:
         db.commit()
         print "Parlamentar", parlamentar.nome, "encontrad@"
     except IntegrityError:
-        print "Parlamentar", parlamentar.nome, "já cadastrado"
+        print "Parlamentar", parlamentar.nome, "ja cadastrado"
     print
     parlamentares.append(parlamentar)
     total_parlamentares += 1
@@ -113,45 +99,25 @@ proposicoes = []
 print '-----------------------------------------------------------'
 print
 
-<<<<<<< HEAD
-create_table_string = """
-CREATE TABLE proposicao (
-id int not null,
-numero int not null,
-ano int not null,
-ementa text,
-explicacao text,
-tema varchar(255),
-parlamentar_id int not null,
-data_apresentacao date,
-situacao varchar(255),
-link_teor varchar(100),
-primary key(id, numero, ano, parlamentar_id),
-constraint FK_proposicao_parlamentar_id foreign key(parlamentar_id) references parlamentar(id)
-);"""
-cursor.execute(create_table_string)
-db.commit()
-=======
->>>>>>> 999ce480583b681a1f4909a5201aaf50b2bd83e5
 total_proposicoes = 0
 tipos_pl = ['PL', 'PLC', 'PLN', 'PLP', 'PLS', 'PLV', 'EAG', 'EMA',
             'EMC', 'EMC-A', 'EMD', 'EML', 'EMO', 'EMP', 'EMPV',
             'EMR', 'EMRP', 'EMS', 'EPP', 'ERD', 'ERD-A', 'ESB',
             'ESP', 'PEC', 'PDS', 'PDN', 'PDC']
 for parlamentar in parlamentares:
-    print "Obtendo proposições d@ parlamentar", parlamentar.nome
+    print "Obtendo proposicoes d@ parlamentar", parlamentar.nome
     nome = remove_acentos(parlamentar.nome)
     for pl in tipos_pl:
         url_proposicoes = 'http://www.camara.gov.br/SitCamaraWS/Proposicoes.asmx/ListarProposicoes?sigla=%s&numero=&ano=&datApresentacaoIni=&datApresentacaoFim=&parteNomeAutor=%s&idTipoAutor=&siglaPartidoAutor=&siglaUFAutor=&generoAutor=&codEstado=&codOrgaoEstado=&emTramitacao=' % (pl, nome.replace(' ', '+'))
         try:
             xml_proposicoes = ET.parse(urlopen(url_proposicoes))
         except HTTPError:
-            print "Parlamentar sem proposição de", pl, ":'("
+            print "Parlamentar sem proposicao de", pl, ":'("
             print
             sleep(1)
             continue
         except URLError:
-            print "Erro de conexão..."
+            print "Erro de conexao..."
             print "Prosseguindo..."
             print
             sleep(120)
@@ -191,21 +157,21 @@ for parlamentar in parlamentares:
                     cursor.execute(insert_proposicao_string)
                     db.commit()
                 except IntegrityError:
-                    print "Proposição '", proposicao.ementa, "' existente no banco de dados."
+                    print "Proposicao '", proposicao.ementa, "' existente no banco de dados."
 
                 num_proposicoes += 1
                 total_proposicoes += 1
         if num_proposicoes > 0:
-            print "Proposições de", pl, "d@ parlamentar", parlamentar.nome, "obtidas :D"
-            print "Proposições de", pl, "encontradas:", num_proposicoes
+            print "Proposicoes de", pl, "d@ parlamentar", parlamentar.nome, "obtidas :D"
+            print "Proposicoes de", pl, "encontradas:", num_proposicoes
             print
         else:
-            print "Parlamentar sem proposição de", pl ,":'("
+            print "Parlamentar sem proposicao de", pl ,":'("
             print
             sleep(1)
         sleep(2)
 
 print
 print
-print "Total de proposições:", total_parlamentares
+print "Total de proposicoes:", total_parlamentares
 db.close()
