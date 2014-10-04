@@ -14,4 +14,5 @@ class User < ActiveRecord::Base
 		too_long: 'Digite um nome de usuário menor que 20 caracteres',
 		too_short: 'Digite um nome de usuário maior que 5 caracteres'
 	validates_uniqueness_of [:email, :username], case_sensitive: false
+
 end
