@@ -1,27 +1,13 @@
 <h1>Entrar</h1>
 
-<%= form_for @user do |f| %>
-  <% if @user.errors.any? %>
-    <div class="error_messages">
-      <h2>Form is invalid</h2>
-      <ul>
-        <% for message in @user.errors.full_messages %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= form_tag sessions_path do %>
   <div class="field">
-    <%= f.label :username %>
-    <%= f.text_field :username %>
+    <%= label_tag :username %>
+    <%= text_field_tag :username, params[:username] %>
   </div>
   <div class="field">
-    <%= f.label :password %>
-    <%= f.password_field :password %>
+    <%= label_tag :password %>
+    <%= password_field_tag :password %>
   </div>
-  <div class="field">
-    <%= f.label :password_confirmation %>
-    <%= f.password_field :password_confirmation %>
-  </div>
-  <div class="actions"><%= f.submit %></div>
+  <div class="actions"><%= submit_tag "Log in" %></div>
 <% end %>

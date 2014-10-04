@@ -15,7 +15,8 @@ Rails.application.routes.draw do
   resources :rankings
 
 
-  get 'users/session' => 'session'
+  #get 'users/session' => 'users#session'
+  post "sessions/sign_in" => "sessions#sign_in"
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
 
