@@ -4,6 +4,12 @@ class UsersController < ApplicationController
 
 	def index
 		@users = User.all
+		
+		@user_name = unless params[:user].nil?
+			params[:user][:username]
+		else
+			nil
+		end
 	end
 
 	def show
