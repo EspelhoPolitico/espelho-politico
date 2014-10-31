@@ -15,13 +15,13 @@ RSpec.describe RankingsController, :type => :controller do
     end
 
     create(:theme, id: 3, description: "Saúde")
-    for i in 31..35 do
+    for i in 31..34 do
       create(:proposition, id: i)
       Proposition.find(i).themes << Theme.find_by(description: "Saúde")
     end
 
     create(:theme, id: 4, description: "Indústria, Comércio(até 1953)")
-    for i in 36..40
+    for i in 35..40
       create(:proposition, id: i)
       Proposition.find(i).themes << Theme.find_by(description: "Indústria, Comércio(até 1953)")
     end

@@ -7,43 +7,61 @@ RSpec.describe RankingsHelper, :type => :helper do
     create(:parliamentarian, id: 3, name: "João")
     create(:theme, id: 1, description: "Segurança")
     for i in 1..4 do
-      create(:proposition, id: i, parliamentarian_id: 1)
+      create(:proposition, id: i)
+      Proposition.joins(:parliamentarian)
+      Proposition.find(i).update(parliamentarian: Parliamentarian.first)
       Proposition.find(i).themes << Theme.find_by(description: "Segurança")
     end
     for i in 5..15 do
-      create(:proposition, id: i, parliamentarian_id: 2)
+      create(:proposition, id: i)
+      Proposition.joins(:parliamentarian)
+      Proposition.find(i).update(parliamentarian: Parliamentarian.second)
       Proposition.find(i).themes << Theme.find_by(description: "Segurança")
     end
     for  i in 16..20 do
-      create(:proposition, id: i, parliamentarian_id: 3)
+      create(:proposition, id: i)
+      Proposition.joins(:parliamentarian)
+      Proposition.find(i).update(parliamentarian: Parliamentarian.third)
       Proposition.find(i).themes << Theme.find_by(description: "Segurança")
     end
 
     create(:theme, id: 2, description: "Educação")
     for i in 21..26 do
-      create(:proposition, id: i, parliamentarian_id: 1)
+      create(:proposition, id: i)
+      Proposition.joins(:parliamentarian)
+      Proposition.find(i).update(parliamentarian: Parliamentarian.first)
       Proposition.find(i).themes << Theme.find_by(description: "Educação")
     end
     for i in 27..30 do
-      create(:proposition, id: i, parliamentarian_id: 2)
+      create(:proposition, id: i)
+      Proposition.joins(:parliamentarian)
+      Proposition.find(i).update(parliamentarian: Parliamentarian.second)
       Proposition.find(i).themes << Theme.find_by(description: "Educação")
     end
     for i in 31..40 do
-      create(:proposition, id: i, parliamentarian_id: 3)
+      create(:proposition, id: i)
+      Proposition.joins(:parliamentarian)
+      Proposition.find(i).update(parliamentarian: Parliamentarian.third)
       Proposition.find(i).themes << Theme.find_by(description: "Educação")
     end
 
     create(:theme, id: 3, description: "Saúde")
     for i in 41..50 do
-      create(:proposition, id: i, parliamentarian_id: 1)
+      create(:proposition, id: i)
+      Proposition.joins(:parliamentarian)
+      Proposition.find(i).update(parliamentarian: Parliamentarian.first)
       Proposition.find(i).themes << Theme.find_by(description: "Saúde")
     end
     for i in 51..53 do
-      create(:proposition, id: i, parliamentarian_id: 2)
+      create(:proposition, id: i)
+      Proposition.joins(:parliamentarian)
+      Proposition.find(i).update(parliamentarian: Parliamentarian.second)
       Proposition.find(i).themes << Theme.find_by(description: "Saúde")
     end
     for i in 54..60 do
-      create(:proposition, id: i, parliamentarian_id: 3)
+      create(:proposition, id: i)
+      Proposition.joins(:parliamentarian)
+      Proposition.find(i).update(parliamentarian: Parliamentarian.third)
       Proposition.find(i).themes << Theme.find_by(description: "Saúde")
     end
   end
