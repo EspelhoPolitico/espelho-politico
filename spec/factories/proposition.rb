@@ -9,6 +9,6 @@ FactoryGirl.define do
     presentation_date "Tue, 13 Apr 2013"
     situation "MESA - Arquivada"
     sequence(:content_link) { |n| "http://www.camara.gov.br/proposicoesWeb/prop_mostrarintegra?codteor=#{n}"}
-    parliamentarian_id 1
+    sequence(:parliamentarian_id)
   end
 end
