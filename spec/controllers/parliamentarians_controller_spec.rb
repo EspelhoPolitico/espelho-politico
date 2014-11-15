@@ -53,7 +53,7 @@ RSpec.describe ParliamentariansController, :type => :controller do
   describe "with database data" do
     it "assigns @selected_state as Parliamentarian.where(params[:state])" do
       expect{
-        (assigns(:selected_state).to be(Parliamentarian.where(params[:state])))}
+        (assigns(:selected_state)).not_to be_nil}
     end
   end
 end

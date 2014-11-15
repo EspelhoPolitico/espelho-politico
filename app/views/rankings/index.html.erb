@@ -28,7 +28,7 @@
                     <% link = theme.description + ' (' + theme.propositions.count.to_s + ')' %>
                     <% theme_id = Theme.find_by(description: theme.description).id %>
                     <li><%= link_to link, 'javascript:;', class: "theme-chooser"  %></li>
-                  <% end %>
+                  <%end%>
                 </li>
               </ul>
           </div>
@@ -40,7 +40,7 @@
                 <% request.each do |p| %>
                   <li class="toggle-topbar menu-icon">
                   <%= link_to show_name_and_number_of_propositions(@selected_theme_id, p.parliamentarian_id), profile_path(p.parliamentarian_id) %>
-                <% end %>
+                <%end%>
               </ul>
             </div>
           </div>
