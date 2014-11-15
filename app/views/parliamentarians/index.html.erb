@@ -58,12 +58,6 @@
     }
   });
 </script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script type="text/javascript">
-  $(document).on( "click", "#Busca", function() {
-    $("#scroll_busca").load("/parliamentarians_search #resultado_busca", {search: $("#right-label").val()})
-  });
-</script>
 <div class="row">
   <div class="small-12 columns">
     <div class="off-canvas-wrap" data-offcanvas>
@@ -78,15 +72,15 @@
             <dl class="sub-nav">
               <p><dd><button data-dropdown="drop1" aria-controls="drop1" aria-expanded="false">Estados &raquo;</button></dd>
               <dd><button data-dropdown="drop2" aria-controls="drop2" aria-expanded="false">Partidos &raquo;</button></dd>
-              <%= form_tag 'javascript:;' do %>
-              <div class="small-5 columns">
-                <%= text_field_tag :search, params[:search], id:"right-label", placeholder: "Nome do Parlamentar" %>
-              </div>
-              <div class="small-3 columns">
-                <%= submit_tag "Buscar", :name => nil , class: "button postfix", id: "Busca" %>
-              </div></p>
+              <%= form_tag parliamentarians_path, :method => 'get' do %>
+                <div class="small-5 columns">
+                  <%= text_field_tag :search, params[:search], id:"right-label", placeholder: "Nome do Parlamentar" %>
+                </div>
+                <div class="small-3 columns">
+                  <%= submit_tag "Buscar", :name => nil , class: "button postfix" %>
+                </div></p>
+              <%end%>
             </dl>
-          <%end%>
           <ul id="drop1" class="f-dropdown" data-dropdown-content aria-hidden="true" tabindex="-1">
             <ul id="drop" class="[tiny small medium large content]f-dropdown" data-dropdown-content>
             <div style="height:400px;line-height:3em;overflow:scroll;padding:3px;">
@@ -103,8 +97,8 @@
               <%end%>
             </ul>
           </ul>
-          <div style="width:940px;height:800px;line-height:3em;overflow:scroll;padding:5px;", id = "scroll_busca">
-            <div id = "resultado_busca">
+          <div style="width:940px;height:800px;line-height:3em;overflow:scroll;padding:5px;">
+            <div>
               <% if !params[:search].blank? %>
                 <ul>
                 <% @parliamentarians.each do |p| %>
