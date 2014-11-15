@@ -17,15 +17,10 @@ Rails.application.routes.draw do
   resources :profile
   resources :account_activations, only: [:edit]
   resources :password_resets, only: [:new, :create, :edit, :update]
-  get 'signup' => 'users#new'
-  get 'signin' => 'sessions#new'
-  post 'signin' => 'sessions#create'
-  delete 'signout' => 'sessions#destroy'
   post 'ranking' => 'rankings#index'
-  #get 'profile' => 'parliamentarians#profile'
-  resources :parliamentarians, :except => [:show]  do
-    get 'parliamentarians_per_state', :on => :collection
-  end
+  get ':state' => 'parliamentarians#parliamentarians_per_state'
+
+  post 'parliamentarians_search' => 'parliamentarians#index'
 
   resources :parliamentarians, :except => [:show]  do
     get 'parliamentarians_per_party', :on => :collection
