@@ -2,8 +2,7 @@ class QuizController < ApplicationController
 
   def index
     begin
-          @proposition = randomize_propositions(Proposition.all)[0]
-          puts @proposition.id
+      @proposition = randomize_propositions(Proposition.all)[0]
     end while @proposition.explanation.size <= 5
   end
 
