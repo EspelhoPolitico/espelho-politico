@@ -17,7 +17,7 @@ def create
  
   if @comment.save
     flash[:success] = 'Your comment was successfully added!'
-    redirect_to root_url
+    redirect_to comments_path
   else
     render 'new'
   end
