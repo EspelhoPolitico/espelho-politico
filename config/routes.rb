@@ -8,7 +8,8 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'welcome#index'
 
-resources :comments, only: [:index, :new, :create]
+resources :comments, only: [:index, :create]
+get '/comments/new/(:parent_id)', to: 'comments#new', as: :new_comment
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
