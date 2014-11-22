@@ -65,3 +65,6 @@ gem 'devise'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
+
+gem 'closure_tree'
+gem 'bootstrap-sass'
