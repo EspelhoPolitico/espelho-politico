@@ -16,7 +16,7 @@ def create
   end
  
   if @comment.save
-    flash[:success] = 'Your comment was successfully added!'
+    flash[:success] = 'Seu comentário foi adicionado com sucesso!'
     redirect_to comments_path
   else
     render 'new'
