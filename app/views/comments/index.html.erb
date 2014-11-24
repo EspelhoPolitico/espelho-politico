@@ -1,0 +1,18 @@
+<div class="jumbotron">
+  <div class="container">
+    <nav class="top-bar show-for-medium-up" data-topbar>
+	    <ul class="title-area">
+	      <li class="name">
+	        <h1><a href="#">Discussão</a></h1>
+	      </li>
+	    </ul>
+    </nav>
+    <h3 align="center">Junte-se a discussão</h3>
+    <%if user_signed_in? %>
+    	<p align="center">Clique no botão abaixo para iniciar um novo tópico:</p>
+    	<p align="center"><%= link_to 'Adicionar novo tópico', new_comment_path, class: 'btn btn-primary btn-lg'%></p>    
+    <%else%>
+      <p align="center">Para participar da discussão favor fazer login</p>
+    <%end%>
+  </div>
+</div>

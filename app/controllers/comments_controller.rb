@@ -1,0 +1,32 @@
+class CommentsController < ApplicationController
+  def index
+    @comments = Comment.all
+  end
+ 
+def new
+  @comment = Comment.new(parent_id: params[:parent_id])
+end
+ 
+def create
+  if params[:comment][:parent_id].to_i > 0
+    parent = Comment.find_by_id(params[:comment].delete(:parent_id))
+    @comment = parent.children.build(comment_params)
+  else
+    @comment = Comment.new(comment_params)
+  end
+ 
+  if @comment.save
+    #flash[:success] = 'Seu comentário foi adicionado com sucesso!'
+    redirect_to comments_path
+  else
+    render 'new'
+  end
+end
+
+private
+ 
+  def comment_params
+    params.require(:comment).permit(:title, :body, :author)
+  end
+ 
+end
