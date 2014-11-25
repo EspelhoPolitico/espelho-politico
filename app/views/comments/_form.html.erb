@@ -13,14 +13,18 @@
 
   <%= f.hidden_field :parent_id %>
 
+<% if @comment.parent == nil %>
+
 <div class="form-group">
-    <%= f.label :titulo %>
+    <%= f.label :Título %>
     <%= f.text_field :title, class: 'form-control' %>
   </div>
 
+  <% end %>   
+
 <div class="form-group">
-    <%= f.label :autor %>
-    <%= f.text_field :author, class: 'form-control', required: true %>
+    <%= f.label :Autor %>
+    <%= f.text_field :author, :value => current_user.username , class: 'form-control', required: true %>
   </div>
 
 <div class="form-group">

@@ -3,9 +3,13 @@
     <h1>Junte-se à discussão</h1>
     <p>Clique no botão abaixo para iniciar um novo tópico:</p>
     <p>
+    <%if user_signed_in? %>
       <%= link_to 'Adicionar novo tópico', new_comment_path, class: 'btn btn-primary btn-lg' %>
+    <%else%> 
+      <p align="center">Para participar da discussão favor fazer login</p> 
+   <%end%>
     </p>
   </div>
 </div>
- 
-<%= render @comments %>
+
+<%= comments_tree_for @comments %>

@@ -1,8 +1,9 @@
 class CommentsController < ApplicationController
-  def index
-    @comments = Comment.all
-  end
  
+  def index
+    @comments = Comment.hash_tree
+  end
+
 def new
   @comment = Comment.new(parent_id: params[:parent_id])
 end
