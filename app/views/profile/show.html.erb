@@ -28,7 +28,7 @@
             <% end %>
         <%else%>
           <% @prop_parliamentarian.each do |pro| %>
-            <li class="price">Número: <%= pro.number %></li>
+            <li class="price"><%=pro.proposition_types%> <%=pro.number%>/<%=pro.year %></li>
             <li class="bullet-item">Ano: <%= pro.year %></li>
             <li class="bullet-item">Tipo: <%= pro.proposition_types %></li>
             <li class="bullet-item">Emenda: <%= pro.amendment %></li>
