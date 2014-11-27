@@ -17,14 +17,15 @@ get '/comments/new/(:parent_id)', to: 'comments#new', as: :new_comment
   resources :users
   resources :themes
   resources :rankings
-  resources :parliamentarians
   resources :profile
   resources :account_activations, only: [:edit]
   resources :password_resets, only: [:new, :create, :edit, :update]
   post 'ranking' => 'rankings#index'
-  get ':state' => 'parliamentarians#parliamentarians_per_state'
 
-  get ':party' => 'parliamentarians#parliamentarians_per_party'
+  resources :parliamentarians, :except => [:show] do
+    get 'parliamentarians_per_party', :on => :collection
+    get 'parliamentarians_per_state', :on => :collection
+  end
 
   post 'parliamentarians_search' => 'parliamentarians#index'
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
