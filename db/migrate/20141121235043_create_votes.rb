@@ -3,7 +3,8 @@ class CreateVotes < ActiveRecord::Migration
     create_table :votes do |t|
       t.references :user
       t.references :proposition
-      t.boolean :approved? , default: false
+      t.references :parliamentarian
+       t.boolean :approved? , default: false
     end
     add_index(
       :votes,
