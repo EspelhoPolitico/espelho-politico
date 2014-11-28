@@ -12,7 +12,7 @@ class QuizController < ApplicationController
     if (params[:vote])
       params[:vote][:parliamentarian_id] = Proposition.find(params[:vote][:proposition_id]).parliamentarian_id
 
-      if (params[:vote][:approved?] == "Reclamar")
+      if (params[:vote][:approved?] == "Alertar")
         UserMailer.complaint_about_proposition(current_user.id, params[:vote][:parliamentarian_id], params[:vote][:proposition_id]).deliver
         params[:vote][:approved?] = "Pular"
       end

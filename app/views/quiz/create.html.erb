@@ -48,11 +48,13 @@
                               <li><%= button_to 'Aprovo', 'javascript:;', class: "button", id: true %></li>
                               <li><%= button_to 'Desaprovo', 'javascript:;', class: "button", id: false %></li>
                               <li><%= button_to 'Pular', 'javascript:;', class: "button", id: "Pular"%></li>
-                              <li><%= button_to 'Concluir', interest_profile_index_path, :method => :get, class: "button" %></li>
+                              <li>
+                                  <%= link_to 'Concluir', interest_profile_index_path %>
+                              </li>
                           </ul>
                           <ul class="pricing-table">
                             <li class="title">Essa proposição não tem um resumo claro?<br>Clique no botão abaixo para enviar um email automático para o parlamentar solicitando um resumo conciso.</li>
-                            <li class="cta-button"><%= button_to "Reclamar", 'javascript:;', class: "button alert", id: "Reclamar"%></li>
+                            <li class="cta-button"><%= button_to "Alertar o Parlamentar", 'javascript:;', class: "button alert", id: "Alertar"%></li>
                           </ul>
                         <% end %> 
                     <% else %>
