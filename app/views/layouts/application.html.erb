@@ -27,7 +27,6 @@
         <!-- Right Nav Section -->
       <ul class="right">
         <li class="active"><a target="_blank"><%= link_to 'Início', root_url %></a></li>
-        
         <li class="active"><a target="_blank"><%= link_to 'Perfil Parlamentar', parliamentarians_path %></a></li>
         <li class="active"><a target="_blank"><%= link_to 'Rankings', rankings_path %></a></li>
         <li class="active"><a target="_blank"><%= link_to 'Quiz', quiz_index_path %></a></li>
@@ -44,16 +43,11 @@
   </nav>
   </div>
   <div class="row">
-        <div class="large-12 columns">
-            <h2><center><img src="/ep.png"/></center></h2>
-            <hr />
-       </div>
+    <div class="large-12 columns">
+        <h2><center><img src="/ep.png"/></center></h2>
     </div>
-
-
- <%= yield %>
+  </div>
+ <%=yield%>
     <%= javascript_include_tag "application" %>
-
   </body>
-
 </html>
