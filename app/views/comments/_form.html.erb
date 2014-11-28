@@ -1,0 +1,35 @@
+<%= form_for(@comment) do |f| %>
+  <% if @comment.errors.any? %>
+    <div id="error_explanation">
+      <h3><%= pluralize(@comment.errors.count, "erro(s)") %> não permitiram a criação do comentário!</h3>
+      <ul>
+        <% @comment.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.hidden_field :parent_id %>
+
+<% if @comment.parent == nil %>
+
+<div class="form-group">
+    <%= f.label :Título %>
+    <%= f.text_field :title, class: 'form-control' %>
+  </div>
+
+  <% end %>   
+
+<div class="form-group">
+    <%= f.label :Autor %>
+    <%= f.text_field :author, :value => current_user.name , class: 'form-control', required: true %>
+  </div>
+
+<div class="form-group">
+    <%= f.label :comentário %>
+    <%= f.text_area :body, class: 'form-control', required: true %>
+  </div>
+
+<%= f.submit class: 'btn btn-primary' %>
+<% end %>        

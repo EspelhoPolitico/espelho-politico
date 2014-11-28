@@ -30,6 +30,7 @@
         <li class="active"><a  target="_blank"><%= link_to 'Perfil Parlamentar', parliamentarians_path %></a></li>
         <li class="active"><a  target="_blank"><%= link_to 'Rankings', rankings_path %></a></li>
         <li class="active"><a target="_blank"><%= link_to 'Quiz', quiz_index_path %></a></li>
+        <li class="active"><a target="_blank"><%= link_to 'Discussão', comments_path %></a></li>
         <li class="active"><a target="_blank">Sobre</a></li>
          <% if user_signed_in? %>
           <li class="active"><a  target="_blank"><%= link_to current_user.name, edit_user_registration_path %></a></li>
@@ -47,8 +48,6 @@
             <hr />
        </div>
     </div>
-
-
  <%= yield %>
     <%= javascript_include_tag "application" %>
 

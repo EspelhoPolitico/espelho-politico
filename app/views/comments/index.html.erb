@@ -1,0 +1,16 @@
+<div class="jumbotron">
+  <div class="container">
+    <br><br><h2 p align="center">Junte-se à discussão</p></h2></br></br>
+    <p>
+    <center><p>A seguir sublinhado encontram-se os títulos das postagens e logo após os seus respectivos contéudos</p></center>
+    <%if user_signed_in? %>
+      <br><br><p>Clique no link abaixo para iniciar um novo tópico:</p>
+      <%= link_to 'Adicionar novo tópico', new_comment_path, class: 'btn btn-primary btn-lg' %>
+    <%else%> 
+      <br><br><p align="center">Para participar da discussão faça login</p></br></br> 
+   <%end%>
+    </p>
+  </div>
+</div>
+
+<%= comments_tree_for @comments %>

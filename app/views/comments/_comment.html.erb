@@ -1,0 +1,21 @@
+<div class="well">
+  <br><b><u><h3 align="center"><%= comment.title %></b></u></h3></br>
+  
+   <p class="text-muted"><%= comment.root? ? "Iniciado por" : "Respondido por" %> <strong><%= comment.author %></strong> em
+    <%= l(comment.created_at, format: '%d de %B de %Y às %H:%M:%S') %></p>
+ 
+  <blockquote>
+  <p><%= comment.body %></p>
+</blockquote>
+
+<% from_reply_form ||= nil %>
+<% unless from_reply_form %>
+  <% if comment.leaf? %>
+    <small class="text-muted">Não há respostas ainda - seja o primeiro a responder</small>
+  <% end %>
+  <%if user_signed_in? %>
+  <p><%= link_to 'responder', new_comment_path(comment.id) %></p>
+  <% end %>
+<% end %>
+
+</div>
