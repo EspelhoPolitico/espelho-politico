@@ -3,7 +3,6 @@
 import sys
 import xml.etree.ElementTree as ET
 from datetime import date
-from time import sleep
 from urllib2 import urlopen
 
 import MySQLdb
@@ -101,7 +100,6 @@ print "Total de parlamentares:", total_parlamentares
 proposicoes = []
 print '-----------------------------------------------------------'
 print
-sleep(2)
 total_proposicoes = 0
 tipos_pl = ['PL', 'PLC', 'PLN', 'PLP', 'PLS', 'PLV', 'EAG', 'EMA',
             'EMC', 'EMC-A', 'EMD', 'EML', 'EMO', 'EMP', 'EMPV',
@@ -118,7 +116,6 @@ for parlamentar in parlamentares:
         except Exception:
             print "Parlamentar sem proposição de", pl ,":'("
             print
-            sleep(3)
             continue
         num_proposicoes = 0
         proposicoes = xml_proposicoes.getroot()
@@ -129,7 +126,6 @@ for parlamentar in parlamentares:
             except Exception:
                 print "Erro ao abrir URL"
                 print
-                sleep(3)
                 continue
             root_proposicao = xml_proposicao.getroot()
             nome_autor1 = root_proposicao.find('Autor').text
@@ -211,7 +207,6 @@ for parlamentar in parlamentares:
         else:
             print "Parlamentar sem proposição de", pl ,":'("
             print
-        sleep(3)
 
 print
 print
