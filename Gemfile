@@ -3,10 +3,8 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.5'
-# Use mysql2 as the database for Active Record
-gem 'mysql2', '0.3.16'
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+# Use postgresql as the database for Active Record
+gem 'pg'
 # Use SCSS for stylesheets
 # gem 'sass-rails', '~> 4.0.3'
 # Use Uglifier as compressor for JavaScript assets
@@ -39,7 +37,7 @@ gem 'capistrano-rails', group: :development
 
 
 # Use foundation framework to front-end development
-gem 'foundation-rails'
+gem 'foundation-rails', '5.5.2.1'
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
