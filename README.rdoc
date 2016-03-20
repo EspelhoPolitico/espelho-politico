@@ -1,28 +1,37 @@
-== README
+= Espelho Político
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+{<img src="https://codeclimate.com/github/EspelhoPolitico/espelho-politico/badges/gpa.svg" alt="Code Climate" />}[https://codeclimate.com/github/EspelhoPolitico/espelho-politico]
 
-Things you may want to cover:
+== Description
+Project to help Brazilian voters find the parliamentarians who share the same ideas
 
-* Ruby version
+== Dependencies
 
-* System dependencies
+- PostgreSQL Dev
+- Ruby (2.3.0)
+- Rails (4.1.5)
 
-* Configuration
+== Setup
 
-* Database creation
+=== Configuring the Development Environment
 
-* Database initialization
+  $ rake config:development_environment
 
-* How to run the test suite
+=== Fetching data from {Camara Legislativa}[http://camara.gov.br/]
 
-* Services (job queues, cache servers, search engines, etc.)
+Run this task at least once. If you wanna keep your database updated run this task with regularity.
 
-* Deployment instructions
+===== With default values
 
-* ...
+  $ rake db:fetch_data
+
+===== With customization
+
+  $ rake 'db:fetch_data[<database_name>, <database_role>, <role_password>]'
 
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+<b>Parameter</b>:: <b>Default value</b>
+database_name:: ep_dev
+database_role:: $USER
+database_password:: <no password>
+
