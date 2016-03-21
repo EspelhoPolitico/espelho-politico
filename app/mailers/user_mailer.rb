@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-	default from: "espelho.politico@gmail.com"
+	default from: 'espelho.politico@gmail.com', 'Content-Transfer-Encoding' => '7bit'
 
   def complaint_about_proposition(user, parliamentarian, proposition)
     @user = User.find(user)
