@@ -9,11 +9,16 @@ Project to help Brazilian voters find the parliamentarians who share the same id
 
 - PostgreSQL Dev
 - Ruby (2.3.0)
+  - To install it, we recommend the Ruby Version Manager - RVM. You can follow the steps {here}[http://rvm.io/]
 - Rails (4.1.5)
 
 == Setup
 
 === Configuring the Development Environment
+
+  $ gem install bundler
+
+  $ bundle install
 
   $ rake config:development_environment
 
@@ -35,3 +40,8 @@ database_name:: ep_dev
 database_role:: $USER
 database_password:: <no password>
 
+== Solving Problems
+
+If you get the error <tt>FATAL: password authentication failed for user "your username"</tt>,
+you may have to change the file <tt>pg_hba.conf</tt> on <tt>/etc/postgresql/9.3/main/</tt> as
+root user. Change the encryption METHOD from "md5" to "trust".
