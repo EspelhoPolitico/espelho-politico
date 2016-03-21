@@ -40,8 +40,3 @@ database_name:: ep_dev
 database_role:: $USER
 database_password:: <no password>
 
-== Solving Problems
-
-If you get the error <tt>FATAL: password authentication failed for user "your username"</tt>,
-you may have to change the file <tt>pg_hba.conf</tt> on <tt>/etc/postgresql/9.3/main/</tt> as
-root user. Change the encryption METHOD from "md5" to "trust".
